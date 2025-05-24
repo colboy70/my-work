@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>COVID-19 Interactive Map</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+  <style>
+    #map {
+      height: 600px;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <h2>COVID-19 Case Tracking Map</h2>
+  <div id="map"></div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+  <!-- Example COVID Data -->
+  <script>
+    const covidData = [
+      {
+        location: "New York, USA",
+        lat: 40.7128,
+        lng: -74.0060,
+        total_cases: 1500000,
+        total_deaths: 30000,
+        vaccination_rate: 75
+      },
+      {
+        location: "London, UK",
+        lat: 51.5074,
+        lng: -0.1278,
+        total_cases: 1200000,
+        total_deaths: 20000,
+        vaccination_rate: 70
+      },
+      {
+        location: "Delhi, India",
+        lat: 28.6139,
+        lng: 77.2090,
+        total_cases: 1800000,
+        total_deaths: 35000,
+        vaccination_rate: 60
+      }
+    ];
+  </script>
+
+  <!-- Map Initialization -->
+  <script>
+    const map = L.map('map').setView([20, 0], 2);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    covidData.forEach(location => {
+      L.marker([location.lat, location.lng]).addTo(map)
+        .bindPopup(`
+          <b>${location.location}</b><br>
+          Cases: ${location.total_cases}<br>
+          Deaths: ${location.total_deaths}<br>
+          Vaccinated: ${location.vaccination_rate}%
+        `);
+    });
+  </script>
+</body>
+</html>
